@@ -1,8 +1,8 @@
 package com.cars.api.security;
 
+import com.cars.domain.model.User;
 import com.cars.domain.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -17,16 +17,12 @@ public class UserDetailsServiceImpl  implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        com.cars.domain.model.User user = userRepository.findByLogin(username);
+        User user = userRepository.findByLogin(username);
 
         if(user == null)
             throw new UsernameNotFoundException("User not found!");
 
-        return User.builder()
-            .username(username)
-            .password(user.getPassword())
-            .roles("USER")
-            .build();
+        return user;
 
 //        return switch (username) {
 //            case "user" -> User.builder()
