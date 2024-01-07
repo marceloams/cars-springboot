@@ -1,7 +1,7 @@
 package com.cars;
 
-import com.cars.domain.model.Car;
 import com.cars.domain.dto.CarDTO;
+import com.cars.domain.model.Car;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
@@ -23,16 +23,18 @@ public class CarsApiTest {
     protected TestRestTemplate rest;
 
     private ResponseEntity<CarDTO> getCar(String url){
-        return rest.getForEntity(url, CarDTO.class);
+        return rest.withBasicAuth("user", "userTest").getForEntity(url, CarDTO.class);
     }
 
     private ResponseEntity<List<CarDTO>> getCars(String url){
-        return rest.exchange(
-                url,
-                HttpMethod.GET,
-                null,
-                new ParameterizedTypeReference<List<CarDTO>>() {}
-        );
+        return rest
+                .withBasicAuth("user", "userTest")
+                .exchange(
+                    url,
+                    HttpMethod.GET,
+                    null,
+                    new ParameterizedTypeReference<List<CarDTO>>() {}
+                );
     }
 
     @Test
@@ -42,7 +44,7 @@ public class CarsApiTest {
         car.setType("vintage");
 
         //add car
-        ResponseEntity<CarDTO> response = rest.postForEntity("/api/v1/cars/addCar", car, null);
+        ResponseEntity<CarDTO> response = rest.withBasicAuth("admin", "adminTest").postForEntity("/api/v1/cars/addCar", car, null);
         System.out.println(response);
 
         //get object
@@ -56,7 +58,7 @@ public class CarsApiTest {
         Assertions.assertEquals(car.getType(), carDTO.getType());
 
         //delete object
-        rest.delete("/api/v1/cars/deleteCarById/" + carDTO.getId());
+        rest.withBasicAuth("admin", "adminTest").delete("/api/v1/cars/deleteCarById/" + carDTO.getId());
         Assertions.assertEquals(getCar(location).getStatusCode(), HttpStatus.NOT_FOUND);
     }
 
