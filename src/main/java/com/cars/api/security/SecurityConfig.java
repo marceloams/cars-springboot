@@ -26,6 +26,10 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http
+            .cors((cors) -> cors
+                    .configurationSource(CorsConfig.configurationSource())
+            )
+            .addFilter(new CorsConfig())
             .authorizeHttpRequests((auth) -> auth
                 .anyRequest().authenticated()
             )
