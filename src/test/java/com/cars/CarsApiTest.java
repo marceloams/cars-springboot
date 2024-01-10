@@ -5,36 +5,30 @@ import com.cars.domain.model.Car;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = CarsApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class CarsApiTest {
-    @Autowired
-    protected TestRestTemplate rest;
+public class CarsApiTest extends BaseAPITest{
 
     private ResponseEntity<CarDTO> getCar(String url){
-        return rest.withBasicAuth("user", "userTest").getForEntity(url, CarDTO.class);
+        return get(url, CarDTO.class);
     }
 
     private ResponseEntity<List<CarDTO>> getCars(String url){
-        return rest
-                .withBasicAuth("user", "userTest")
-                .exchange(
+        HttpHeaders headers = getHeaders();
+
+        return rest.exchange(
                     url,
                     HttpMethod.GET,
-                    null,
-                    new ParameterizedTypeReference<List<CarDTO>>() {}
-                );
+                    new HttpEntity<>(headers),
+                    new ParameterizedTypeReference<List<CarDTO>>() {
+                });
     }
 
     @Test
@@ -44,8 +38,8 @@ public class CarsApiTest {
         car.setType("vintage");
 
         //add car
-        ResponseEntity<CarDTO> response = rest.withBasicAuth("admin", "adminTest").postForEntity("/api/v1/cars/addCar", car, null);
-        System.out.println(response);
+        ResponseEntity<CarDTO> response = post("/api/v1/cars/addCar", car, null);
+        Assertions.assertEquals(HttpStatus.CREATED, response.getStatusCode());
 
         //get object
         String location = response.getHeaders().getLocation() + "";
@@ -58,14 +52,15 @@ public class CarsApiTest {
         Assertions.assertEquals(car.getType(), carDTO.getType());
 
         //delete object
-        rest.withBasicAuth("admin", "adminTest").delete("/api/v1/cars/deleteCarById/" + carDTO.getId());
-        Assertions.assertEquals(getCar(location).getStatusCode(), HttpStatus.NOT_FOUND);
+        delete("/api/v1/cars/deleteCarById/" + carDTO.getId(), null);
+        Assertions.assertEquals(HttpStatus.NOT_FOUND, getCar(location).getStatusCode());
     }
 
     @Test
     public void listCars() {
         List<CarDTO> carDTOList = getCars("/api/v1/cars").getBody();
         Assertions.assertNotNull(carDTOList);
+        System.out.println(carDTOList);
         Assertions.assertEquals(30, carDTOList.size());
     }
 

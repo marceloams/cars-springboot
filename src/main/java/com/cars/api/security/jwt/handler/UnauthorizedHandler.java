@@ -18,6 +18,8 @@ public class UnauthorizedHandler implements AuthenticationEntryPoint {
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
+        if(response.getStatus()==404) return;
+
         logger.warn("UnauthorizedHandler, exception: " + authException);
 
         //called if wrong token or if it is null
