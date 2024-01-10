@@ -16,13 +16,13 @@ import java.io.InputStream;
 import java.util.Base64;
 
 @Service
-public class FirebaseStorageService {
+public class UploadService {
 
     @PostConstruct
     private void init() throws IOException {
         if(FirebaseApp.getApps().isEmpty()){
             InputStream serviceAccount =
-                    FirebaseStorageService.class.getResourceAsStream("/serviceAccountKey.json");
+                    UploadService.class.getResourceAsStream("/serviceAccountKey.json");
 
             FirebaseOptions options = new FirebaseOptions.Builder()
                     .setCredentials(GoogleCredentials.fromStream(serviceAccount))

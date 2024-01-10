@@ -2,7 +2,7 @@ package com.cars.api.controller;
 
 import com.cars.api.upload.UploadInput;
 import com.cars.api.upload.UploadOutput;
-import com.cars.domain.service.FirebaseStorageService;
+import com.cars.domain.service.UploadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -18,13 +18,13 @@ import java.io.IOException;
 public class UploadController {
 
     @Autowired
-    private FirebaseStorageService firebaseStorageService;
+    private UploadService uploadService;
 
     @Secured({"ROLE_ADMIN"})
     @PostMapping
     public ResponseEntity upload(@RequestBody UploadInput uploadInput) throws IOException {
 
-        String url = firebaseStorageService.upload(uploadInput);
+        String url = uploadService.upload(uploadInput);
 
         return ResponseEntity.ok(new UploadOutput(url));
     }
