@@ -44,7 +44,7 @@ public class SecurityConfig {
             .addFilter(new CorsConfig())
             .authorizeHttpRequests((authz) -> authz
                 .requestMatchers(HttpMethod.GET, "/api/v1/login").permitAll()
-                //.requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**", "/configuration/ui", "/swagger-resources/**", "/configuration/**", "/webjars/**").permitAll()
+                .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**", "/configuration/ui", "/swagger-resources/**", "/configuration/**", "/webjars/**").permitAll()
                 .anyRequest().authenticated()
             )
             .csrf(AbstractHttpConfigurer::disable)
