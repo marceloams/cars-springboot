@@ -8,24 +8,16 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = CarsApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class FirebaseStorageServiceTest {
-
-    @Autowired
-    protected TestRestTemplate rest;
+public class FirebaseStorageServiceTest extends BaseAPITest{
 
     @Autowired
     private FirebaseStorageService firebaseStorageService;
-
-    private TestRestTemplate basicAuth() {
-        return rest.withBasicAuth("admin", "adminTest");
-    }
 
     private UploadInput getUploadInput() {
         UploadInput uploadInput = new UploadInput();
@@ -41,7 +33,7 @@ public class FirebaseStorageServiceTest {
     public void testUploadFirebase() {
         String url = firebaseStorageService.upload(getUploadInput());
 
-        ResponseEntity<String> urlResponse = rest.getForEntity(url, String.class);
+        ResponseEntity<String> urlResponse = get(url, String.class);
         Assertions.assertEquals(HttpStatus.OK, urlResponse.getStatusCode());
     }
 
@@ -50,7 +42,7 @@ public class FirebaseStorageServiceTest {
         UploadInput uploadInput = getUploadInput();
 
         //Insert
-        ResponseEntity<UploadOutput> response = basicAuth().postForEntity("/api/v1/upload", uploadInput, UploadOutput.class);
+        ResponseEntity<UploadOutput> response = post("/api/v1/upload", uploadInput, UploadOutput.class);
 
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
 
@@ -59,7 +51,7 @@ public class FirebaseStorageServiceTest {
 
         String uploadOutputUrl = uploadOutput.getUrl();
 
-        ResponseEntity<String> urlResponse = rest.getForEntity(uploadOutputUrl, String.class);
+        ResponseEntity<String> urlResponse = get(uploadOutputUrl, String.class);
         Assertions.assertEquals(HttpStatus.OK, urlResponse.getStatusCode());
     }
 
