@@ -1,9 +1,9 @@
 package com.cars;
 
-import com.cars.domain.model.Car;
-import com.cars.domain.service.CarService;
-import com.cars.domain.dto.CarDTO;
-import com.cars.domain.exception.ObjectNotFoundException;
+import com.cars.api.model.Car;
+import com.cars.api.service.CarService;
+import com.cars.api.dto.CarDTO;
+import com.cars.api.exception.ObjectNotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

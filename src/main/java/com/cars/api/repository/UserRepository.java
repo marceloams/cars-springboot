@@ -1,6 +1,6 @@
-package com.cars.domain.repository;
+package com.cars.api.repository;
 
-import com.cars.domain.model.User;
+import com.cars.api.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepository extends JpaRepository<User, Long> {

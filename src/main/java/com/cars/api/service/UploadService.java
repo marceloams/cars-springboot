@@ -1,4 +1,4 @@
-package com.cars.domain.service;
+package com.cars.api.service;
 
 import com.cars.api.upload.UploadInput;
 import com.google.auth.oauth2.GoogleCredentials;

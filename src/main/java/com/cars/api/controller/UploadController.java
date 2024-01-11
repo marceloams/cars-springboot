@@ -2,7 +2,7 @@ package com.cars.api.controller;
 
 import com.cars.api.upload.UploadInput;
 import com.cars.api.upload.UploadOutput;
-import com.cars.domain.service.UploadService;
+import com.cars.api.service.UploadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;

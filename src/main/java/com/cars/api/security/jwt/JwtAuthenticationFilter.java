@@ -1,7 +1,7 @@
 package com.cars.api.security.jwt;
 
-import com.cars.domain.dto.UserDTO;
-import com.cars.domain.model.User;
+import com.cars.api.dto.UserDTO;
+import com.cars.api.model.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

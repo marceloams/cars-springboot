@@ -1,8 +1,8 @@
 package com.cars.api.controller;
 
-import com.cars.domain.model.Car;
-import com.cars.domain.service.CarService;
-import com.cars.domain.dto.CarDTO;
+import com.cars.api.model.Car;
+import com.cars.api.service.CarService;
+import com.cars.api.dto.CarDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

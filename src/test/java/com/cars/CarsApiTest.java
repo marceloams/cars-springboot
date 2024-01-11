@@ -1,7 +1,7 @@
 package com.cars;
 
-import com.cars.domain.dto.CarDTO;
-import com.cars.domain.model.Car;
+import com.cars.api.dto.CarDTO;
+import com.cars.api.model.Car;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;

@@ -2,7 +2,7 @@ package com.cars;
 
 import com.cars.api.upload.UploadInput;
 import com.cars.api.upload.UploadOutput;
-import com.cars.domain.service.UploadService;
+import com.cars.api.service.UploadService;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
