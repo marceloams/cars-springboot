@@ -13,7 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import java.util.List;
 
 @SpringBootTest
-class CarsServiceTests {
+class CarsServiceTest {
 
 	@Autowired
 	CarService carService;

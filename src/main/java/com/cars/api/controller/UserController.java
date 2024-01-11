@@ -25,7 +25,7 @@ public class UserController {
         return ResponseEntity.ok(registeredUsers);
     }
 
-    @GetMapping("/loggedUserInfo")
+    @GetMapping("/logged-user")
     public UserDTO getLoggedUserInfo(@AuthenticationPrincipal User user){
         return UserDTO.create(user);
     }
