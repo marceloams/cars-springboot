@@ -23,19 +23,5 @@ public class UserDetailsServiceImpl  implements UserDetailsService {
             throw new UsernameNotFoundException("User not found!");
 
         return user;
-
-//        return switch (username) {
-//            case "user" -> User.builder()
-//                    .username("user")
-//                    .password("{bcrypt}$2a$10$tLk/NrhSisnvCRumlGCpPuqALl4FEKyG/KI0Bc1c63YLzCjlIx1cG")
-//                    .roles("USER")
-//                    .build();
-//            case "admin" -> User.builder()
-//                    .username("admin")
-//                    .password("{bcrypt}$2a$10$O6gLPPnqMH3shxsdRNAOpu5hyR4nnNusIXHCKjg.y3jfKKZGrllBu")
-//                    .roles("USER", "ADMIN")
-//                    .build();
-//            default -> throw new UsernameNotFoundException("User not found!");
-//        };
     }
 }

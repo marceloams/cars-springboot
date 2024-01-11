@@ -33,7 +33,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) {
-        System.out.println("asdsad");
         try {
             JwtLoginInput login = new ObjectMapper().readValue(request.getInputStream(), JwtLoginInput.class);
             String username = login.getUsername();
