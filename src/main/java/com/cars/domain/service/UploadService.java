@@ -19,7 +19,7 @@ import java.util.Base64;
 public class UploadService {
 
     @PostConstruct
-    private void init() throws IOException {
+    public void init() throws IOException {
         if(FirebaseApp.getApps().isEmpty()){
             InputStream serviceAccount =
                     UploadService.class.getResourceAsStream("/serviceAccountKey.json");
