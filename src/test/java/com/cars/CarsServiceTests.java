@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
 
@@ -18,10 +19,17 @@ class CarsServiceTests {
 	CarService carService;
 
 	@Test
-	public void listCarsTest(){
+	public void listCars(){
 		List<CarDTO> carsList = carService.getCars();
 
 		Assertions.assertEquals(30, carsList.size());
+	}
+
+	@Test
+	public void listCarsWithPagination(){
+		List<CarDTO> carsList = carService.getCarsWithPagination(PageRequest.of(0,5));
+
+		Assertions.assertEquals(5, carsList.size());
 	}
 
 	@Test

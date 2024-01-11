@@ -5,6 +5,7 @@ import com.cars.api.model.Car;
 import com.cars.api.dto.CarDTO;
 import com.cars.api.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -20,6 +21,10 @@ public class CarService {
 
     public List<CarDTO> getCars(){
         return rep.findAll().stream().map(CarDTO::create).collect(Collectors.toList());
+    }
+
+    public List<CarDTO> getCarsWithPagination(Pageable pageable){
+        return rep.findAll(pageable).stream().map(CarDTO::create).collect(Collectors.toList());
     }
 
     public CarDTO getCarById(Long id){

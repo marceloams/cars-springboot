@@ -60,8 +60,13 @@ public class CarsApiTest extends BaseAPITest{
     public void listCars() {
         List<CarDTO> carDTOList = getCars("/api/v1/cars").getBody();
         Assertions.assertNotNull(carDTOList);
-        System.out.println(carDTOList);
         Assertions.assertEquals(30, carDTOList.size());
+    }
+
+    @Test
+    public void listCarsWithPagination() {
+        Assertions.assertEquals(10, getCars("/api/v1/cars/with-pagination").getBody().size());
+        Assertions.assertEquals(5, getCars("/api/v1/cars/with-pagination?size=5").getBody().size());
     }
 
     @Test

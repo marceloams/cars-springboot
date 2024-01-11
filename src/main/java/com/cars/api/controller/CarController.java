@@ -1,9 +1,10 @@
 package com.cars.api.controller;
 
+import com.cars.api.dto.CarDTO;
 import com.cars.api.model.Car;
 import com.cars.api.service.CarService;
-import com.cars.api.dto.CarDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -23,6 +24,12 @@ public class CarController {
     @GetMapping
     public ResponseEntity<List<CarDTO>> getCars(){
         return new ResponseEntity<>(service.getCars(), HttpStatus.OK);
+    }
+
+    @GetMapping("/with-pagination")
+    public ResponseEntity<List<CarDTO>> getCarsWithPagination(@RequestParam(name = "page", defaultValue = "0") Integer page,
+                                                              @RequestParam(name = "size", defaultValue = "10") Integer size){
+        return new ResponseEntity<>(service.getCarsWithPagination(PageRequest.of(page, size)), HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}")
