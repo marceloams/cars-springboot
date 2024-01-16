@@ -31,11 +31,12 @@ insert into car (name,description,url_picture,url_video,latitude,longitude,type)
 insert into car (name,description,url_picture,url_video,latitude,longitude,type) VALUES('Rolls Royce Phantom','Descrição Rolls Royce Phantom','http://www.livroandroid.com.br/livro/cars/luxo/Rolls_Royce_Phantom.png','http://www.livroandroid.com.br/livro/cars/luxo/rolls_royce.mp4','-23.564224','-46.653156','luxo');
 insert into car (name,description,url_picture,url_video,latitude,longitude,type) VALUES('Lexus LFA','Descrição Lexus LFA','http://www.livroandroid.com.br/livro/cars/luxo/Lexus_LFA.png','http://www.livroandroid.com.br/livro/cars/luxo/lexus.mp4','-23.564224','-46.653156','luxo');
 
-INSERT INTO users(id, name, email, login, password) VALUES(1, 'User', 'user@gmail.com', 'user', '{bcrypt}$2a$10$U8C6CBGYtzCHisgo18KGZOcEtUf6XYlfN6Pbq9QdmQbNGPqS3YUQ2');
-INSERT INTO users(id, name, email, login, password) VALUES(2, 'Admin', 'admin@gmail.com', 'admin', '{bcrypt}$2a$10$4R/wvJtSVifAsqEb82c4y.J9yBdCSSii5dkTja6L/nETX1ZORmGeC');
+INSERT INTO users(name, email, login, password) VALUES('User', 'user@gmail.com', 'user', '{bcrypt}$2a$10$U8C6CBGYtzCHisgo18KGZOcEtUf6XYlfN6Pbq9QdmQbNGPqS3YUQ2');
+INSERT INTO users(name, email, login, password) VALUES('Admin', 'admin@gmail.com', 'admin', '{bcrypt}$2a$10$4R/wvJtSVifAsqEb82c4y.J9yBdCSSii5dkTja6L/nETX1ZORmGeC');
 
-INSERT INTO role(id, name) VALUES(1, 'ROLE_USER');
-INSERT INTO role(id, name) VALUES(2, 'ROLE_ADMIN');
+INSERT INTO role(name) VALUES('ROLE_USER');
+INSERT INTO role(name) VALUES('ROLE_ADMIN');
 
 INSERT INTO user_roles(user_id, role_id) VALUES(1, 1);
+INSERT INTO user_roles(user_id, role_id) VALUES(2, 1);
 INSERT INTO user_roles(user_id, role_id) VALUES(2, 2);
