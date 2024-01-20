@@ -38,9 +38,9 @@ public class RoleController {
         return (roleDTO != null)? ResponseEntity.ok(roleDTO) : ResponseEntity.notFound().build();
     }
 
-    private URI getURI(String name) {
-        return ServletUriComponentsBuilder.fromCurrentRequest().path("/name/{name}")
-                .buildAndExpand(name).toUri();
+    private URI getURI(Long id) {
+        return ServletUriComponentsBuilder.fromCurrentRequest().replacePath("api/v1/roles/{id}")
+                .buildAndExpand(id).toUri();
     }
 
     @PostMapping(value = "/add")
@@ -48,7 +48,7 @@ public class RoleController {
     public ResponseEntity<RoleDTO> post(@RequestBody Role role){
         RoleDTO roleDTO = roleService.insert(role);
 
-        return ResponseEntity.created(getURI(roleDTO.getName())).build();
+        return ResponseEntity.created(getURI(roleDTO.getId())).build();
     }
 
     @Secured({"ROLE_ADMIN"})
@@ -57,16 +57,6 @@ public class RoleController {
         role.setId(id);
         RoleDTO roleDTO = roleService.updateById(id, role);
         return (roleDTO != null)? ResponseEntity.ok(roleDTO) : ResponseEntity.notFound().build();
-    }
-
-    @Secured({"ROLE_ADMIN"})
-    @DeleteMapping(value = "/deleteByName/{name}")
-    public ResponseEntity deleteByName(@PathVariable String name){
-        return switch (roleService.deleteByName(name)){
-            case OK -> ResponseEntity.ok().build();
-            case ASSIGNED -> ResponseEntity.unprocessableEntity().body("This role is assigned to a user!");
-            default -> ResponseEntity.notFound().build();
-        };
     }
 
     @Secured({"ROLE_ADMIN"})
@@ -79,4 +69,13 @@ public class RoleController {
         };
     }
 
+    @Secured({"ROLE_ADMIN"})
+    @DeleteMapping(value = "/delete/name/{name}")
+    public ResponseEntity deleteByName(@PathVariable String name){
+        return switch (roleService.deleteByName(name)){
+            case OK -> ResponseEntity.ok().build();
+            case ASSIGNED -> ResponseEntity.unprocessableEntity().body("This role is assigned to a user!");
+            default -> ResponseEntity.notFound().build();
+        };
+    }
 }

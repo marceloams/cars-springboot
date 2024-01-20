@@ -15,7 +15,7 @@ import java.util.Optional;
 public class RoleService {
 
     @Autowired
-    RoleRepository roleRepository;
+    private RoleRepository roleRepository;
 
     public enum StatusAnswer {
         OK,
@@ -33,7 +33,7 @@ public class RoleService {
 
     private RoleDTO roleToRoleDTO(Role role){
         RoleDTO roleDTO = RoleDTO.create(role);
-        roleDTO.setUserNames(getUsernames(role));
+        roleDTO.setUsernames(getUsernames(role));
         return roleDTO;
     }
 
@@ -78,7 +78,7 @@ public class RoleService {
     public StatusAnswer deleteByName(String name) {
         RoleDTO roleDTO = getByName(getFormattedName(name));
         if(roleDTO != null) {
-            if(roleDTO.getUserNames().isEmpty()){
+            if(roleDTO.getUsernames().isEmpty()){
                 roleRepository.delete(roleDTO.toRoleObject());
                 return StatusAnswer.OK;
             }
@@ -90,7 +90,7 @@ public class RoleService {
     public StatusAnswer deleteById(Long id) {
         RoleDTO roleDTO = getById(id);
         if(roleDTO != null) {
-            if(roleDTO.getUserNames().isEmpty()){
+            if(roleDTO.getUsernames().isEmpty()){
                 roleRepository.delete(roleDTO.toRoleObject());
                 return StatusAnswer.OK;
             }

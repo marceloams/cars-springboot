@@ -15,7 +15,7 @@ import java.util.List;
 public class RoleDTO {
     private Long id;
     private String name;
-    private List<String> userNames;
+    private List<String> usernames;
 
     public static RoleDTO create(Role role){
         ModelMapper modelMapper = new ModelMapper();

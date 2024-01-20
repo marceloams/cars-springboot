@@ -44,17 +44,24 @@ public abstract class BaseAPITest {
         Assertions.assertNotNull(jwtToken);
     }
 
+    <T> ResponseEntity<T> get(String url, Class<T> responseType) {
+
+        HttpHeaders headers = getHeaders();
+
+        return rest.exchange(url, GET, new HttpEntity<>(headers), responseType);
+    }
+
     <T> ResponseEntity<T> post(String url, Object body, Class<T> responseType) {
         HttpHeaders headers = getHeaders();
 
         return rest.exchange(url, POST, new HttpEntity<>(body, headers), responseType);
     }
 
-    <T> ResponseEntity<T> get(String url, Class<T> responseType) {
+    <T> ResponseEntity<T> put(String url, Object body, Class<T> responseType) {
 
         HttpHeaders headers = getHeaders();
 
-        return rest.exchange(url, GET, new HttpEntity<>(headers), responseType);
+        return rest.exchange(url, PUT, new HttpEntity<>(body, headers), responseType);
     }
 
     <T> ResponseEntity<T> delete(String url, Class<T> responseType) {
