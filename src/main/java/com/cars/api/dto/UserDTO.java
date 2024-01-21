@@ -8,12 +8,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import org.modelmapper.ModelMapper;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserDTO {
+    private long id;
     private String login;
     private String name;
     private String email;
@@ -25,9 +26,11 @@ public class UserDTO {
     public static UserDTO create(User user){
         ModelMapper modelMapper = new ModelMapper();
         UserDTO dto = modelMapper.map(user, UserDTO.class);
-        dto.roles = user.getRoles().stream()
-                .map(Role::getName)
-                .collect(Collectors.toList());
+        dto.roles = (user.getRoles() != null) ?
+                user.getRoles().stream()
+                    .map(Role::getName)
+                    .toList()
+                : new ArrayList<>();
         return dto;
     }
 
