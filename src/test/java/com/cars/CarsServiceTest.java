@@ -1,9 +1,9 @@
 package com.cars;
 
-import com.cars.api.model.Car;
-import com.cars.api.service.CarService;
 import com.cars.api.dto.CarDTO;
 import com.cars.api.exception.ObjectNotFoundException;
+import com.cars.api.model.Car;
+import com.cars.api.service.CarService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,79 +47,47 @@ class CarsServiceTest {
 		Assertions.assertEquals(0, carsList.size());
 	}
 
-	@Test
-	public void insertCar(){
-		Car car = new Car();
-		car.setName("Fusca");
-		car.setType("vintage");
-
-		//adding object
-		CarDTO carDTO = carService.insert(car);
-		Assertions.assertNotNull(carDTO);
-
+	private Long verifyClassAttributes(CarDTO carDTO, Car car){
+		//get id
 		Long id = carDTO.getId();
 		Assertions.assertNotNull(id);
 
-		//getting object
+		//get by id
 		carDTO = carService.getCarById(id);
 		Assertions.assertNotNull(carDTO);
 
+		//verify
 		Assertions.assertEquals(car.getName(), carDTO.getName());
 		Assertions.assertEquals(car.getType(), carDTO.getType());
 
-		//delete object
-		carService.deleteCarById(id);
-		try{
-			Assertions.assertNull(carService.getCarById(id));
-			Assertions.fail("Car not deleted!");
-		}catch (ObjectNotFoundException e){
-			//ok
-		}
+		return id;
 	}
 
 	@Test
-	public void updateCar(){
+	public void insertUpdateAndDelete(){
+
 		Car car = new Car();
 		car.setName("Fusca");
 		car.setType("vintage");
 
-		//adding object
+		//INSERT
 		CarDTO carDTO = carService.insert(car);
 		Assertions.assertNotNull(carDTO);
 
-		Long id = carDTO.getId();
-		Assertions.assertNotNull(id);
+		//verify
+		Long id = verifyClassAttributes(carDTO, car);
 
-		//getting object
-		carDTO = carService.getCarById(id);
-		Assertions.assertNotNull(carDTO);
-
-		Assertions.assertEquals(car.getName(), carDTO.getName());
-		Assertions.assertEquals(car.getType(), carDTO.getType());
-
-		//updating object
+		//UPDATE
 		car.setName("Fusca 1300cc");
-		car.setType("classicos");
-
+		car.setType("classic");
 		carDTO = carService.updateCarById(id, car);
 		Assertions.assertNotNull(carDTO);
 
-		id = carDTO.getId();
-		Assertions.assertNotNull(id);
-
-		carDTO = carService.getCarById(id);
-		Assertions.assertNotNull(carDTO);
-
-		Assertions.assertEquals(car.getName(), carDTO.getName());
-		Assertions.assertEquals(car.getType(), carDTO.getType());
+		//verify
+		verifyClassAttributes(carDTO, car);
 
 		//delete object
 		carService.deleteCarById(id);
-		try{
-			Assertions.assertNull(carService.getCarById(id));
-			Assertions.fail("Car not deleted!");
-		}catch (ObjectNotFoundException e){
-			//ok
-		}
+		Assertions.assertThrows(ObjectNotFoundException.class, () -> carService.getCarById(id));
 	}
 }
