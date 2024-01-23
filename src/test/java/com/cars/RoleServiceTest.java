@@ -29,7 +29,7 @@ public class RoleServiceTest {
         RoleDTO roleDTO = roleService.getByName("admin");
         Assertions.assertEquals("ROLE_ADMIN", roleDTO.getName());
 
-        roleDTO = roleService.getByName("ROLE_NONE_EXISTENT");
+        roleDTO = roleService.getByName("ROLE_NON_EXISTENT");
         Assertions.assertNull(roleDTO);
     }
 
@@ -39,68 +39,65 @@ public class RoleServiceTest {
         Assertions.assertEquals(1L, roleDTO.getId());
     }
 
-    @Test
-    public void insert(){
+    private Long insert(){
+        //insert
         Role role = new Role();
         role.setName("ROLE_NEW");
-
-        //adding object
         RoleDTO roleDTO = roleService.insert(role);
         Assertions.assertNotNull(roleDTO);
 
+        //get id
         Long id = roleDTO.getId();
         Assertions.assertNotNull(id);
 
-        //getting object by id
+        //get by id
         roleDTO = roleService.getById(id);
         Assertions.assertNotNull(roleDTO);
 
+        //verify
         Assertions.assertEquals(role.getName(), roleDTO.getName());
 
-        //delete object by id
-        roleService.deleteById(id);
-        try{
-            Assertions.assertNull(roleService.getById(id));
-            Assertions.fail("Role not deleted!");
-        }catch (ObjectNotFoundException e){
-            //ok
-        }
+        return id;
     }
 
     @Test
-    public void update(){
-        Role role = new Role();
-        role.setName("ROLE_NEW");
+    public void insertUpdateAndDeleteById() {
 
-        //adding object
-        RoleDTO roleDTO = roleService.insert(role);
+        //INSERT
+        Long id = insert();
+
+        //UPDATE
+        Role role = new Role();
+        role.setName("ROLE_NEW_UPDATED");
+        RoleDTO roleDTO = roleService.updateById(id, role);
         Assertions.assertNotNull(roleDTO);
 
+        //get name
         String name = roleDTO.getName();
         Assertions.assertNotNull(name);
 
-        //getting object by name
+        //get by name
         roleDTO = roleService.getByName(name);
         Assertions.assertNotNull(roleDTO);
 
+        //verify
         Assertions.assertEquals(role.getName(), roleDTO.getName());
 
-        //updating object
-        role.setName("ROLE_NEW_UPDATED");
+        //DELETE by id
+        roleService.deleteById(id);
+        Assertions.assertThrows(ObjectNotFoundException.class, () -> roleService.deleteById(id));
+    }
 
-        Long id = roleDTO.getId();
-        Assertions.assertNotNull(id);
+    @Test
+    public void insertAndDeleteByName() {
+        //INSERT
+        Long id = insert();
 
-        roleDTO = roleService.updateById(id, role);
+        //get name
+        RoleDTO roleDTO = roleService.getById(id);
         Assertions.assertNotNull(roleDTO);
-
-        name = roleDTO.getName();
+        String name = roleDTO.getName();
         Assertions.assertNotNull(name);
-
-        roleDTO = roleService.getByName(name);
-        Assertions.assertNotNull(roleDTO);
-
-        Assertions.assertEquals(role.getName(), roleDTO.getName());
 
         //delete object
         roleService.deleteByName(name);
@@ -109,12 +106,12 @@ public class RoleServiceTest {
 
     @Test
     public void deleteResponses(){
-        //trying to delete role assigned to a user
+        //delete role assigned to a user
         Assertions.assertEquals(RoleService.StatusAnswer.ASSIGNED, roleService.deleteByName("ROLE_USER"));
         Assertions.assertEquals(RoleService.StatusAnswer.ASSIGNED, roleService.deleteById(1L));
 
-        //trying to delete role none existent
-        Assertions.assertEquals(RoleService.StatusAnswer.NOT_FOUND, roleService.deleteByName("ROLE_NONE_EXISTENT"));
+        //delete role non-existent
+        Assertions.assertEquals(RoleService.StatusAnswer.NOT_FOUND, roleService.deleteByName("ROLE_NON_EXISTENT"));
         Assertions.assertThrows(ObjectNotFoundException.class, () -> roleService.deleteById(3L));
     }
 }
