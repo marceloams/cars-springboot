@@ -43,9 +43,7 @@ public class CarsApiTest extends BaseAPITest{
 
         //get object
         String location = response.getHeaders().getLocation() + "";
-        String id = location.substring(location.length()-2);
-        String url = location.substring(0, 35) + id;
-        CarDTO carDTO = getCar(url).getBody();
+        CarDTO carDTO = getCar(location).getBody();
 
         Assertions.assertNotNull(carDTO);
         Assertions.assertEquals(car.getName(), carDTO.getName());

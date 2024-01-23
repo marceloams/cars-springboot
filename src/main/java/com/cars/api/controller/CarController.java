@@ -55,7 +55,7 @@ public class CarController {
     }
 
     private URI getURI(Long id) {
-        return ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+        return ServletUriComponentsBuilder.fromCurrentRequest().replacePath("/api/v1/cars/{id}")
                 .buildAndExpand(id).toUri();
     }
 
