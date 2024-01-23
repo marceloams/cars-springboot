@@ -46,7 +46,7 @@ public class TokenJwtTest {
         List<GrantedAuthority> roles = JwtUtil.getRoles(jwtToken);
         Assertions.assertNotNull(roles);
         System.out.println(roles);
-        String role = roles.get(0).getAuthority();
+        String role = roles.get(1).getAuthority();
         Assertions.assertEquals(role,"ROLE_ADMIN");
     }
 
